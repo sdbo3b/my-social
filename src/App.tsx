@@ -1,10 +1,20 @@
 import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import Home from "./pages/home/Home";
+import theme from "./theme";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <p>Hello World</p>
-    </div>
+    <React.Fragment>
+      <ThemeProvider theme={theme}>
+        <CssBaseline>
+          <div className="App">
+            <Home />
+          </div>
+        </CssBaseline>
+      </ThemeProvider>
+    </React.Fragment>
   );
 };
 
