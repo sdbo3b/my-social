@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       height: "170px",
       borderRadius: "10px",
-      boxShadow: theme.shadows[2],
+      boxShadow: theme.feedShadow[0],
       display: "flex",
     },
     body: {
