@@ -1,7 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import MoreVert from "@material-ui/icons/MoreVert";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { TPost, Users } from "../../testData";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -85,9 +85,17 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const classes = useStyles();
   const user = useMemo(
-    () => Users.filter((u) => u.id == post.userId)[0],
+    () => Users.filter((u) => u.id === post.userId)[0],
     [post]
   );
+
+  const [like, setLike] = useState(post.like);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLike = () => {
+    setLike(isLiked ? like - 1 : like + 1);
+    setIsLiked((prev) => !prev);
+  };
 
   return (
     <Box className={classes.root}>
@@ -112,9 +120,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </Box>
         <Box className={classes.bottom}>
           <Box className={classes.bottomLeft}>
-            <img className={classes.icon} src="/assets/like.png" alt="like" />
+            <img
+              className={classes.icon}
+              src="/assets/like.png"
+              onClick={handleLike}
+              alt="like"
+            />
             <img className={classes.icon} src="/assets/heart.png" alt="heart" />
-            <span className={classes.likeCounter}>{post.like} people like</span>
+            <span className={classes.likeCounter}>{like} people like</span>
           </Box>
           <Box className={classes.bottomRight}>
             <span className={classes.commentText}>{post.comment} comments</span>

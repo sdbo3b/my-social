@@ -7,7 +7,7 @@ export const Users: User[] = [
   {
     id: 1,
     profilePicture: "assets/person/1.jpeg",
-    username: "Safak Kocaoglu",
+    username: "Jane Doe",
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ export const Users: User[] = [
   {
     id: 10,
     profilePicture: "assets/person/10.jpeg",
-    username: "Jane Doe",
+    username: "Patricia Star",
   },
 ];
 

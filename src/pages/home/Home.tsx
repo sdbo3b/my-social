@@ -24,7 +24,7 @@ const Home: React.FC = () => {
       <Box className={classes.body}>
         <SideBar />
         <Feed />
-        <RightBar />
+        <RightBar page="home" />
       </Box>
     </Box>
   );
