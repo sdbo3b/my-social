@@ -102,7 +102,7 @@ const Post: React.FC = () => {
           <img
             className={classes.postImg}
             src="/assets/post/1.jpeg"
-            alt="post-image"
+            alt="post"
           />
         </Box>
         <Box className={classes.bottom}>
