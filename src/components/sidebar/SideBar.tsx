@@ -120,7 +120,7 @@ const SideBar: React.FC = () => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {Users.map((friend) => (
-                <Friend friend={friend} />
+                <Friend key={friend.id} friend={friend} />
               ))}
             </List>
           </Collapse>
