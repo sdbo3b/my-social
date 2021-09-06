@@ -4,6 +4,7 @@ import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import Post from "../post/Post";
 import Share from "../share/Share";
+import { Posts } from "../../testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,7 +23,9 @@ const Feed: React.FC = () => {
   return (
     <Box className={classes.root}>
       <Share />
-      <Post />
+      {Posts.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </Box>
   );
 };

@@ -1,7 +1,8 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import MoreVert from "@material-ui/icons/MoreVert";
-import React from "react";
+import React, { useMemo } from "react";
+import { TPost, Users } from "../../testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,8 +78,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Post: React.FC = () => {
+interface PostProps {
+  post: TPost;
+}
+
+const Post: React.FC<PostProps> = ({ post }) => {
   const classes = useStyles();
+  const user = useMemo(
+    () => Users.filter((u) => u.id == post.userId)[0],
+    [post]
+  );
 
   return (
     <Box className={classes.root}>
@@ -87,32 +96,28 @@ const Post: React.FC = () => {
           <Box className={classes.topLeft}>
             <img
               className={classes.profileImg}
-              src="/assets/person/1.jpeg"
+              src={user.profilePicture}
               alt=""
             />
-            <span className={classes.postUsername}>Jane Doe</span>
-            <span className={classes.postDate}>11 minutes ago</span>
+            <span className={classes.postUsername}>{user.username}</span>
+            <span className={classes.postDate}>{post.date}</span>
           </Box>
           <Box className={classes.topRight}>
             <MoreVert />
           </Box>
         </Box>
         <Box className={classes.center}>
-          <span>This is my first post!</span>
-          <img
-            className={classes.postImg}
-            src="/assets/post/1.jpeg"
-            alt="post"
-          />
+          <span>{post.desc}</span>
+          <img className={classes.postImg} src={post.photo} alt="post" />
         </Box>
         <Box className={classes.bottom}>
           <Box className={classes.bottomLeft}>
             <img className={classes.icon} src="/assets/like.png" alt="like" />
             <img className={classes.icon} src="/assets/heart.png" alt="heart" />
-            <span className={classes.likeCounter}>20 people like</span>
+            <span className={classes.likeCounter}>{post.like} people like</span>
           </Box>
           <Box className={classes.bottomRight}>
-            <span className={classes.commentText}>5 comments</span>
+            <span className={classes.commentText}>{post.comment} comments</span>
           </Box>
         </Box>
       </Box>

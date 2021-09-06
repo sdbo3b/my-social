@@ -19,6 +19,8 @@ import {
   ExpandMore,
 } from "@material-ui/icons";
 import React from "react";
+import { Users } from "../../testData";
+import Friend from "./friend/friend";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,6 +30,8 @@ const useStyles = makeStyles((theme: Theme) =>
       height: `calc(100vh - ${theme.spacing(8)}px)`,
       overflowY: "scroll",
       scrollbarWidth: "thin",
+      position: "sticky",
+      top: "65px",
     },
     body: {
       display: "flex",
@@ -37,15 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     list: {
       flexGrow: 1,
-    },
-    nested: {
-      paddingLeft: theme.spacing(4),
-    },
-    profileImage: {
-      width: "32px",
-      height: "32px",
-      borderRadius: "50%",
-      objectFit: "cover",
     },
   })
 );
@@ -124,16 +119,9 @@ const SideBar: React.FC = () => {
           </ListItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <img
-                    className={classes.profileImage}
-                    src="/assets/person/2.jpeg"
-                    alt=""
-                  ></img>
-                </ListItemIcon>
-                <ListItemText primary="John Doe" />
-              </ListItem>
+              {Users.map((friend) => (
+                <Friend friend={friend} />
+              ))}
             </List>
           </Collapse>
         </List>

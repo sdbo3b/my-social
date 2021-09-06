@@ -1,8 +1,9 @@
-export const Users: {
+export type User = {
   id: number;
   profilePicture: string;
   username: string;
-}[] = [
+};
+export const Users: User[] = [
   {
     id: 1,
     profilePicture: "assets/person/1.jpeg",
@@ -51,11 +52,11 @@ export const Users: {
   {
     id: 10,
     profilePicture: "assets/person/10.jpeg",
-    username: "Safak Kocaoglu",
+    username: "Jane Doe",
   },
 ];
 
-export const Posts: {
+export type TPost = {
   id: number;
   desc?: string;
   photo?: string;
@@ -63,7 +64,9 @@ export const Posts: {
   userId: number;
   like: number;
   comment: number;
-}[] = [
+};
+
+export const Posts: TPost[] = [
   {
     id: 1,
     desc: "Love For All, Hatred For None.",

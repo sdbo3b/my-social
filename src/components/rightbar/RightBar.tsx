@@ -1,15 +1,8 @@
-import {
-  Badge,
-  createStyles,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-  Theme,
-} from "@material-ui/core";
+import { createStyles, List, makeStyles, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import React from "react";
+import { Users } from "../../testData";
+import Online from "./online/online";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,15 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(1),
       borderRadius: "10px",
     },
-    friendImg: {
-      width: "40px",
-      height: "40px",
-      borderRadius: "50%",
-      objectFit: "cover",
-    },
-    dot: {
-      backgroundColor: "#33eb13",
-    },
     title: {},
   })
 );
@@ -71,22 +55,9 @@ const RightBar: React.FC = () => {
         <img className={classes.ad} src="/assets/ad.png" alt="" />
         <h4 className={classes.title}>Online Friends</h4>
         <List component="div">
-          <ListItem button>
-            <ListItemIcon>
-              <Badge
-                classes={{ dot: classes.dot }}
-                variant="dot"
-                overlap="circular"
-              >
-                <img
-                  className={classes.friendImg}
-                  src="/assets/person/3.jpeg"
-                  alt="friend"
-                />
-              </Badge>
-            </ListItemIcon>
-            <ListItemText primary="David Doe" />
-          </ListItem>
+          {Users.map((user) => (
+            <Online key={user.id} user={user} />
+          ))}
         </List>
       </Box>
     </Box>
