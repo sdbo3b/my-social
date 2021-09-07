@@ -19,7 +19,7 @@ import {
   ExpandMore,
 } from "@material-ui/icons";
 import React from "react";
-import { Users } from "../../testData";
+import { Users } from "../../sample/testData";
 import Friend from "./friend/friend";
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -5,7 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { Theme } from "@material-ui/core/styles";
 import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
-import { User } from "../../../testData";
+import { User } from "../../../sample/testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

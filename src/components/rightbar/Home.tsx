@@ -3,7 +3,7 @@ import List from "@material-ui/core/List";
 import { createStyles, Theme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import React from "react";
-import { Users } from "../../testData";
+import { Users } from "../../sample/testData";
 import Online from "./online/online";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,14 +39,18 @@ const Home: React.FC = () => {
       <Box className={classes.birthdayContainer}>
         <img
           className={classes.birthdayImg}
-          src="/assets/gift.png"
+          src={`${process.env.REACT_APP_PUBLIC_URL}assets/gift.png`}
           alt="gift"
         />
         <span className={classes.birthdayText}>
           <b>Tom Doe</b> and <b>4 other friends</b> have a birthday today.
         </span>
       </Box>
-      <img className={classes.ad} src="/assets/ad.png" alt="" />
+      <img
+        className={classes.ad}
+        src={`${process.env.REACT_APP_PUBLIC_URL}assets/ad.png`}
+        alt="ad"
+      />
       <h4 className={classes.title}>Online Friends</h4>
       <List component="div">
         {Users.map((user) => (

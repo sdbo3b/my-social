@@ -2,7 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import MoreVert from "@material-ui/icons/MoreVert";
 import React, { useMemo, useState } from "react";
-import { TPost, Users } from "../../testData";
+import { TPost, Users } from "../../sample/testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,7 +105,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             <img
               className={classes.profileImg}
               src={user.profilePicture}
-              alt=""
+              alt="friend"
             />
             <span className={classes.postUsername}>{user.username}</span>
             <span className={classes.postDate}>{post.date}</span>
@@ -122,11 +122,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
           <Box className={classes.bottomLeft}>
             <img
               className={classes.icon}
-              src="/assets/like.png"
+              src={`${process.env.REACT_APP_PUBLIC_URL}assets/like.png`}
               onClick={handleLike}
               alt="like"
             />
-            <img className={classes.icon} src="/assets/heart.png" alt="heart" />
+            <img
+              className={classes.icon}
+              src={`${process.env.REACT_APP_PUBLIC_URL}assets/heart.png`}
+              alt="heart"
+            />
             <span className={classes.likeCounter}>{like} people like</span>
           </Box>
           <Box className={classes.bottomRight}>

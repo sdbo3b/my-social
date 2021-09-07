@@ -4,7 +4,7 @@ import { createStyles, makeStyles } from "@material-ui/styles";
 import React from "react";
 import Post from "../post/Post";
 import Share from "../share/Share";
-import { Posts } from "../../testData";
+import { Posts } from "../../sample/testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

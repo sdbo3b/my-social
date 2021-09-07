@@ -195,7 +195,7 @@ const NavBar: React.FC = () => {
               </IconButton>
 
               <Typography className={classes.title} variant="h6" noWrap>
-                Social App
+                MySocial
               </Typography>
             </Grid>
             <Grid item xs={6}>
