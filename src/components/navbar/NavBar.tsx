@@ -20,6 +20,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Grid from "@material-ui/core/Grid";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,12 +29,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(2),
+      [theme.breakpoints.up("sm")]: {
+        display: "none",
+      },
     },
     title: {
       display: "none",
       [theme.breakpoints.up("sm")]: {
         display: "inline",
         verticalAlign: "middle",
+        textDecoration: "none",
+        color: theme.palette.secondary.main,
       },
     },
     search: {
@@ -194,9 +200,11 @@ const NavBar: React.FC = () => {
                 <MenuIcon />
               </IconButton>
 
-              <Typography className={classes.title} variant="h6" noWrap>
-                MySocial
-              </Typography>
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Typography className={classes.title} variant="h6" noWrap>
+                  MySocial
+                </Typography>
+              </Link>
             </Grid>
             <Grid item xs={6}>
               <div className={classes.search}>
