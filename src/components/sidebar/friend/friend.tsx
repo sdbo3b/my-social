@@ -4,7 +4,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { User } from "../../../sample/testData";
+import { IUser } from "../../../api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface FriendProps {
-  friend: User;
+  friend: IUser;
 }
 
 const Friend: React.FC<FriendProps> = ({ friend }) => {
@@ -29,11 +29,7 @@ const Friend: React.FC<FriendProps> = ({ friend }) => {
   return (
     <ListItem button className={classes.nested}>
       <ListItemIcon>
-        <img
-          className={classes.profileImage}
-          src={friend.profilePicture}
-          alt=""
-        ></img>
+        <img className={classes.profileImage} src="" alt="none"></img>
       </ListItemIcon>
       <ListItemText primary={friend.username} />
     </ListItem>

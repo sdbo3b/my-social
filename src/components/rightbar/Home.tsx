@@ -3,7 +3,7 @@ import List from "@material-ui/core/List";
 import { createStyles, Theme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import React from "react";
-import { Users } from "../../sample/testData";
+import { IUser } from "../../api";
 import Online from "./online/online";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,7 +31,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Home: React.FC = () => {
+interface IHomeProps {
+  user: IUser | undefined;
+}
+
+const Home: React.FC<IHomeProps> = ({ user }) => {
   const classes = useStyles();
 
   return (
@@ -53,9 +57,9 @@ const Home: React.FC = () => {
       />
       <h4 className={classes.title}>Online Friends</h4>
       <List component="div">
-        {Users.map((user) => (
+        {/* {Users.map((user) => (
           <Online key={user.id} user={user} />
-        ))}
+        ))} */}
       </List>
     </React.Fragment>
   );

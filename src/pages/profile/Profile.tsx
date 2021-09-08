@@ -5,7 +5,10 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { IUser } from "../../api";
 import Feed from "../../components/feed/Feed";
 import NavBar from "../../components/navbar/NavBar";
 import RightBar from "../../components/rightbar/RightBar";
@@ -62,6 +65,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Profile: React.FC = () => {
   const classes = useStyles();
+
+  const [user, setUser] = useState<IUser>();
+  const { username } = useParams<{ username: string }>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/users?username=${username}`);
+      const data: IUser = res.data;
+      console.log(data);
+
+      setUser(data);
+    };
+    fetchUser();
+  }, [username]);
   return (
     <Box>
       <NavBar />
@@ -73,25 +90,31 @@ const Profile: React.FC = () => {
             <Box className={classes.profileCover}>
               <img
                 className={classes.profileCoverImg}
-                src="/assets/post/3.jpeg"
+                src={
+                  user?.coverPicture ||
+                  `${process.env.REACT_APP_PUBLIC_URL}person/noCover`
+                }
                 alt="cover"
               />
               <img
                 className={classes.profileUserImg}
-                src="/assets/post/7.jpeg"
+                src={
+                  user?.profilePicture ||
+                  `${process.env.REACT_APP_PUBLIC_URL}person/noAvatar`
+                }
                 alt="user"
               />
             </Box>
             <Box className={classes.profileInfo}>
               <Typography className={classes.profileInfoName} component="h4">
-                Jane Doe
+                {user?.username}
               </Typography>
-              <span className={classes.profileInfoDesc}>Hello World!</span>
+              <span className={classes.profileInfoDesc}>{user?.desc}</span>
             </Box>
           </Box>
           <Box className={classes.mainBottom}>
-            <Feed />
-            <RightBar page="profile" />
+            <Feed username={username} />
+            <RightBar page="profile" user={user!} />
           </Box>
         </Box>
       </Box>

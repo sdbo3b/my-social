@@ -1,5 +1,7 @@
 import { Box, createStyles, makeStyles, Theme } from "@material-ui/core";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { IUser } from "../../api";
 import Feed from "../../components/feed/Feed";
 import NavBar from "../../components/navbar/NavBar";
 import RightBar from "../../components/rightbar/RightBar";
@@ -17,14 +19,26 @@ const useStyles = makeStyles((theme: Theme) =>
 const Home: React.FC = () => {
   const classes = useStyles();
 
+  const [user, setUser] = useState<IUser>();
+  console.log(user);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/users?username=john`);
+      const data: IUser = res.data;
+      setUser(data);
+    };
+    fetchUser();
+  }, []);
+
   return (
     <Box>
       <NavBar />
       <div className={classes.offset}></div>
       <Box className={classes.body}>
         <SideBar />
-        <Feed />
-        <RightBar page="home" />
+        <Feed username="john" />
+        <RightBar page="home" user={user} />
       </Box>
     </Box>
   );

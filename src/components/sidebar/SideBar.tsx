@@ -19,8 +19,6 @@ import {
   ExpandMore,
 } from "@material-ui/icons";
 import React from "react";
-import { Users } from "../../sample/testData";
-import Friend from "./friend/friend";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -119,9 +117,9 @@ const SideBar: React.FC = () => {
           </ListItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {Users.map((friend) => (
+              {/* {Users.map((friend) => (
                 <Friend key={friend.id} friend={friend} />
-              ))}
+              ))} */}
             </List>
           </Collapse>
         </List>

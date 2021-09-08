@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import React from "react";
+import { IUser } from "../../api";
 import Home from "./Home";
 import Profile from "./Profile";
 
@@ -19,19 +20,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface RightBarProps {
   page: "home" | "profile";
+  user: IUser | undefined;
 }
 
-const RightBar: React.FC<RightBarProps> = ({ page }) => {
+const RightBar: React.FC<RightBarProps> = ({ page, user }) => {
   const classes = useStyles();
 
   const getContent = () => {
     switch (page) {
       case "home":
-        return <Home />;
+        return <Home user={user} />;
       case "profile":
-        return <Profile />;
+        return <Profile user={user} />;
       default:
-        return <Home />;
+        return <Home user={user} />;
     }
   };
 

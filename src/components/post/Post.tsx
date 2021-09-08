@@ -1,8 +1,11 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import MoreVert from "@material-ui/icons/MoreVert";
-import React, { useMemo, useState } from "react";
-import { TPost, Users } from "../../sample/testData";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { IPost, IUser } from "../../api";
+import { format } from "timeago.js";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,18 +82,24 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface PostProps {
-  post: TPost;
+  post: IPost;
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const classes = useStyles();
-  const user = useMemo(
-    () => Users.filter((u) => u.id === post.userId)[0],
-    [post]
-  );
 
-  const [like, setLike] = useState(post.like);
+  const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
+  const [user, setUser] = useState<IUser>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/users?userId=${post.userId}`);
+      const data: IUser = res.data;
+      setUser(data);
+    };
+    fetchUser();
+  }, [post.userId]);
 
   const handleLike = () => {
     setLike(isLiked ? like - 1 : like + 1);
@@ -102,13 +111,19 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <Box className={classes.body}>
         <Box className={classes.top}>
           <Box className={classes.topLeft}>
-            <img
-              className={classes.profileImg}
-              src={user.profilePicture}
-              alt="friend"
-            />
-            <span className={classes.postUsername}>{user.username}</span>
-            <span className={classes.postDate}>{post.date}</span>
+            <Link to={`/profile/${user?.username}`}>
+              <img
+                className={classes.profileImg}
+                src={
+                  user?.profilePicture ||
+                  `${process.env.REACT_APP_PUBLIC_URL}person/noAvatar.png`
+                }
+                alt="friend"
+              />
+            </Link>
+
+            <span className={classes.postUsername}>{user?.username}</span>
+            <span className={classes.postDate}>{format(post.createdAt)}</span>
           </Box>
           <Box className={classes.topRight}>
             <MoreVert />
@@ -116,19 +131,23 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </Box>
         <Box className={classes.center}>
           <span>{post.desc}</span>
-          <img className={classes.postImg} src={post.photo} alt="post" />
+          <img
+            className={classes.postImg}
+            src={`${process.env.REACT_APP_PUBLIC_URL}${post.img}`}
+            alt=""
+          />
         </Box>
         <Box className={classes.bottom}>
           <Box className={classes.bottomLeft}>
             <img
               className={classes.icon}
-              src={`${process.env.REACT_APP_PUBLIC_URL}assets/like.png`}
+              src={`${process.env.REACT_APP_PUBLIC_URL}like.png`}
               onClick={handleLike}
               alt="like"
             />
             <img
               className={classes.icon}
-              src={`${process.env.REACT_APP_PUBLIC_URL}assets/heart.png`}
+              src={`${process.env.REACT_APP_PUBLIC_URL}heart.png`}
               alt="heart"
             />
             <span className={classes.likeCounter}>{like} people like</span>

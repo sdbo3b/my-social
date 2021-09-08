@@ -1,10 +1,11 @@
 import { Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { createStyles, makeStyles } from "@material-ui/styles";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { IPost } from "../../api";
 import Post from "../post/Post";
 import Share from "../share/Share";
-import { Posts } from "../../sample/testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,14 +18,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Feed: React.FC = () => {
+interface IFeedProps {
+  username: string;
+}
+
+const Feed: React.FC<IFeedProps> = ({ username }) => {
   const classes = useStyles();
+  const [posts, setPosts] = useState<IPost[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = username
+        ? await axios.get("/posts/profile/" + username)
+        : await axios.get("/posts/timeline/612e16b0f39fb454d0a4efd0");
+      const data: IPost[] = res.data;
+      setPosts(data);
+    };
+    fetchPosts();
+  }, []);
 
   return (
     <Box className={classes.root}>
       <Share />
-      {Posts.map((post) => (
-        <Post key={post.id} post={post} />
+      {posts.map((post) => (
+        <Post key={post._id} post={post} />
       ))}
     </Box>
   );

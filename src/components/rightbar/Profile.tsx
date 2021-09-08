@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { IUser } from "../../api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,8 +50,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Profile: React.FC = () => {
+interface IProfileProps {
+  user: IUser | undefined;
+}
+
+const Profile: React.FC<IProfileProps> = ({ user }) => {
   const classes = useStyles();
+  console.log(user);
   return (
     <React.Fragment>
       <Typography component="h4" className={classes.title}>
@@ -62,7 +68,7 @@ const Profile: React.FC = () => {
             City:
           </Typography>
           <Typography component="span" className={classes.infoValue}>
-            Toronto
+            {user?.city}
           </Typography>
         </Box>
         <Box className={classes.infoItem}>
@@ -70,7 +76,7 @@ const Profile: React.FC = () => {
             From:
           </Typography>
           <Typography component="span" className={classes.infoValue}>
-            New York
+            {user?.from}
           </Typography>
         </Box>
         <Box className={classes.infoItem}>
@@ -78,7 +84,7 @@ const Profile: React.FC = () => {
             Relationship:
           </Typography>
           <Typography component="span" className={classes.infoValue}>
-            Single
+            {user?.status}
           </Typography>
         </Box>
       </Box>
