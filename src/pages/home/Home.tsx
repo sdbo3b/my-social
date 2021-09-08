@@ -20,7 +20,6 @@ const Home: React.FC = () => {
   const classes = useStyles();
 
   const [user, setUser] = useState<IUser>();
-  console.log(user);
 
   useEffect(() => {
     const fetchUser = async () => {

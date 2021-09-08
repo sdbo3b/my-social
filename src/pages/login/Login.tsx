@@ -8,7 +8,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import React from "react";
+import React, { FormEvent, useRef } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,6 +81,13 @@ const RegisterButton = withStyles((theme: Theme) => ({
 
 const Login: React.FC = () => {
   const classes = useStyles();
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.body}>
@@ -93,33 +100,42 @@ const Login: React.FC = () => {
           </Typography>
         </Box>
         <Box className={classes.mainContentGroup}>
-          <Box className={classes.loginBox}>
-            <TextField
-              id="email"
-              label="Email"
-              placeholder="email"
-              variant="outlined"
-            />
-            <TextField
-              id="password"
-              label="Password"
-              placeholder="password"
-              variant="outlined"
-            />
-            <Button
-              className={classes.loginButton}
-              variant="contained"
-              color="primary"
-              disableRipple
-            >
-              Log In
-            </Button>
-            <Typography component="span" className={classes.forgotPassword}>
-              Forgot Password?
-            </Typography>
-            <RegisterButton variant="contained" disableRipple>
-              Create a new account
-            </RegisterButton>
+          <Box component="form" onSubmit={handleSubmit}>
+            <Box className={classes.loginBox}>
+              <TextField
+                id="email"
+                label="Email"
+                placeholder="email"
+                variant="outlined"
+                type="email"
+                required
+                inputRef={email}
+              />
+              <TextField
+                id="password"
+                label="Password"
+                placeholder="password"
+                variant="outlined"
+                type="password"
+                required
+                inputRef={password}
+              />
+              <Button
+                className={classes.loginButton}
+                variant="contained"
+                color="primary"
+                type="submit"
+                disableRipple
+              >
+                Log In
+              </Button>
+              <Typography component="span" className={classes.forgotPassword}>
+                Forgot Password?
+              </Typography>
+              <RegisterButton variant="contained" disableRipple>
+                Create a new account
+              </RegisterButton>
+            </Box>
           </Box>
         </Box>
       </Box>
