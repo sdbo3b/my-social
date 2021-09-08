@@ -1,8 +1,9 @@
 import { AuthActionType } from "..";
 import { AuthAction } from "..";
+import { IUser } from "../../api";
 
 export interface AuthState {
-  user: null;
+  user: IUser | null;
   isFetching: boolean;
   error: boolean;
 }
@@ -21,8 +22,20 @@ export const authReducer = (
     case AuthActionType.LOGIN_START:
       return {
         user: null,
+        isFetching: true,
+        error: false,
+      };
+    case AuthActionType.LOGIN_SUCCESS:
+      return {
+        user: action.payload,
         isFetching: false,
         error: false,
+      };
+    case AuthActionType.LOGIN_FAILURE:
+      return {
+        user: null,
+        isFetching: false,
+        error: action.payload,
       };
     default:
       return state;
