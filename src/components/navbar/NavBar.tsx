@@ -20,7 +20,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useAppSelector } from "../../state";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -99,6 +100,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const NavBar: React.FC = () => {
   const classes = useStyles();
+  const { user } = useAppSelector((state) => state.auth);
+  const history = useHistory();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -134,7 +138,14 @@ const NavBar: React.FC = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem
+        onClick={(e) => {
+          handleMenuClose();
+          history.push(`/profile/${user?.username}`);
+        }}
+      >
+        Profile
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );

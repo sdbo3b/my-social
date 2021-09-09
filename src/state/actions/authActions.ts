@@ -3,7 +3,6 @@ import { IUser } from "../../api";
 
 export interface LoginStart {
   type: AuthActionType.LOGIN_START;
-  payload: any;
 }
 
 export interface LoginSuccess {
@@ -16,4 +15,19 @@ export interface LoginFailure {
   payload: any;
 }
 
-export type AuthAction = LoginStart | LoginSuccess | LoginFailure;
+export interface FollowUser {
+  type: AuthActionType.FOLLOW_USER;
+  payload: string;
+}
+
+export interface UnfollowUser {
+  type: AuthActionType.UNFOLLOW_USER;
+  payload: string;
+}
+
+export type AuthAction =
+  | LoginStart
+  | LoginSuccess
+  | LoginFailure
+  | FollowUser
+  | UnfollowUser;

@@ -19,25 +19,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const Home: React.FC = () => {
   const classes = useStyles();
 
-  const [user, setUser] = useState<IUser>();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get(`/users?username=john`);
-      const data: IUser = res.data;
-      setUser(data);
-    };
-    fetchUser();
-  }, []);
-
   return (
     <Box>
       <NavBar />
       <div className={classes.offset}></div>
       <Box className={classes.body}>
         <SideBar />
-        <Feed username="john" />
-        <RightBar page="home" user={user} />
+        <Feed />
+        <RightBar page="home" />
       </Box>
     </Box>
   );

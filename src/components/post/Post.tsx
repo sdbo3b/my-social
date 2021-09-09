@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { IPost, IUser } from "../../api";
 import { format } from "timeago.js";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../state";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -91,10 +92,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState<IUser>();
+  const { user: currentUser } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    currentUser && setIsLiked(post.likes.includes(currentUser._id));
+  }, [currentUser?._id, post.likes]);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
+      const res = await axios.get(`/api/v1/users?userId=${post.userId}`);
       const data: IUser = res.data;
       setUser(data);
     };
@@ -102,6 +108,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
   }, [post.userId]);
 
   const handleLike = () => {
+    try {
+      axios.put(`/api/v1/posts/${post._id}/like`, { userId: currentUser?._id });
+    } catch (err) {
+      console.error(err);
+    }
+
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked((prev) => !prev);
   };
@@ -149,6 +161,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               className={classes.icon}
               src={`${process.env.REACT_APP_PUBLIC_URL}heart.png`}
               alt="heart"
+              onClick={handleLike}
             />
             <span className={classes.likeCounter}>{like} people like</span>
           </Box>

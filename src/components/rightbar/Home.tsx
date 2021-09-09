@@ -43,7 +43,7 @@ const Home: React.FC<IHomeProps> = ({ user }) => {
       <Box className={classes.birthdayContainer}>
         <img
           className={classes.birthdayImg}
-          src={`${process.env.REACT_APP_PUBLIC_URL}assets/gift.png`}
+          src={`${process.env.REACT_APP_PUBLIC_URL}gift.png`}
           alt="gift"
         />
         <span className={classes.birthdayText}>
@@ -52,7 +52,7 @@ const Home: React.FC<IHomeProps> = ({ user }) => {
       </Box>
       <img
         className={classes.ad}
-        src={`${process.env.REACT_APP_PUBLIC_URL}assets/ad.png`}
+        src={`${process.env.REACT_APP_PUBLIC_URL}ad.png`}
         alt="ad"
       />
       <h4 className={classes.title}>Online Friends</h4>

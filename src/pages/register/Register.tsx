@@ -8,7 +8,9 @@ import {
   withStyles,
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import React from "react";
+import axios from "axios";
+import React, { FormEvent, useRef } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(1.25),
     },
     registerDesc: {},
-    registerBox: {
+    registerForm: {
       height: "400px",
       padding: theme.spacing(2.5),
       backgroundColor: theme.palette.secondary.main,
@@ -50,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
     forgotPassword: {
       textAlign: "center",
       cursor: "pointer",
+      textDecoration: "none",
       color: theme.palette.primary.light,
     },
   })
@@ -73,6 +76,33 @@ const RegisterButton = withStyles((theme: Theme) => ({
 
 const Register: React.FC = () => {
   const classes = useStyles();
+  const email = useRef<HTMLInputElement>(null);
+  const username = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  const confirmPassword = useRef<HTMLInputElement>(null);
+  const history = useHistory();
+
+  const handleSubmit = async (e: FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    if (confirmPassword.current?.value !== password.current?.value) {
+      return;
+    } else {
+      const user = {
+        username: username.current?.value,
+        email: email.current?.value,
+        password: password.current?.value,
+      };
+
+      try {
+        const res = await axios.post("/auth/register", user);
+        history.push("/login");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.body}>
@@ -85,36 +115,62 @@ const Register: React.FC = () => {
           </Typography>
         </Box>
         <Box className={classes.mainContentGroup}>
-          <Box className={classes.registerBox}>
+          <Box
+            component="form"
+            className={classes.registerForm}
+            onSubmit={handleSubmit}
+          >
             <TextField
               id="email"
               label="Email"
+              type="email"
               placeholder="Email"
               variant="outlined"
+              inputRef={email}
+              required
             />
             <TextField
               id="username"
               label="Username"
               placeholder="Username"
               variant="outlined"
+              inputRef={username}
+              required
             />
             <TextField
               id="password"
               label="Password"
               placeholder="password"
               variant="outlined"
+              type="password"
+              inputRef={password}
+              required
             />
             <TextField
               id="confirmPassword"
               label="Confirm Password"
               placeholder="Password"
               variant="outlined"
+              type="password"
+              inputRef={confirmPassword}
+              required
             />
-            <RegisterButton variant="contained" color="primary" disableRipple>
+            <RegisterButton
+              variant="contained"
+              color="primary"
+              type="submit"
+              disableRipple
+            >
               Sign Up
             </RegisterButton>
+
             <Typography component="span" className={classes.forgotPassword}>
-              Already have an account? Log In.
+              <Link
+                to="/login"
+                style={{ textDecoration: "inherit", color: "inherit" }}
+              >
+                Already have an account? Log In.{" "}
+              </Link>
             </Typography>
           </Box>
         </Box>

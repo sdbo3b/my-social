@@ -1,12 +1,18 @@
 import {
   Box,
+  Button,
   createStyles,
   makeStyles,
   Theme,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import { Add, Remove } from "@material-ui/icons";
+import axios from "axios";
+import React, { MouseEvent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { IUser } from "../../api";
+import { followUser, unfollowUser, useAppDispatch } from "../../state";
+import { beginFollowUser, beginUnfollowUser } from "../../state/thunks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,19 +52,65 @@ const useStyles = makeStyles((theme: Theme) =>
       objectFit: "cover",
       borderRadius: theme.shape.borderRadius,
     },
-    followingName: {},
+    followingName: {
+      textAlign: "center",
+    },
+    followButton: {
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(2),
+    },
   })
 );
 
 interface IProfileProps {
-  user: IUser | undefined;
+  user?: IUser;
+  currentUser?: IUser;
+  friends?: { _id: string; username: string; profilePicture: string }[];
 }
 
-const Profile: React.FC<IProfileProps> = ({ user }) => {
+const Profile: React.FC<IProfileProps> = ({ user, currentUser, friends }) => {
   const classes = useStyles();
-  console.log(user);
+  const follow =
+    currentUser && user && currentUser!.following.includes(user!._id);
+  const [followed, setFollowed] = useState<boolean>(follow!);
+  const dispatch = useAppDispatch();
+
+  const handleFollow = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      if (!followed && currentUser && user) {
+        dispatch(beginFollowUser(currentUser._id, user._id));
+      } else {
+        if (currentUser && user) {
+          dispatch(beginUnfollowUser(currentUser._id, user._id));
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setFollowed((followed) => !followed);
+  };
+
   return (
     <React.Fragment>
+      {user?.username !== currentUser?.username && currentUser && (
+        <Button
+          className={classes.followButton}
+          variant="contained"
+          color="primary"
+          onClick={handleFollow}
+        >
+          {followed ? (
+            <>
+              Unfollow <Remove />
+            </>
+          ) : (
+            <>
+              Follow <Add />
+            </>
+          )}
+        </Button>
+      )}
       <Typography component="h4" className={classes.title}>
         User Information
       </Typography>
@@ -92,26 +144,27 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
         User Friends
       </Typography>
       <Box className={classes.followings}>
-        <Box className={classes.following}>
-          <img
-            src="/assets/person/3.jpeg"
-            alt="friend"
-            className={classes.followingImg}
-          />
-          <Typography component="span" className={classes.followingName}>
-            Alex Durden
-          </Typography>
-        </Box>
-        <Box className={classes.following}>
-          <img
-            src="/assets/person/2.jpeg"
-            alt="friend"
-            className={classes.followingImg}
-          />
-          <Typography component="span" className={classes.followingName}>
-            Janell Shrum
-          </Typography>
-        </Box>
+        {friends?.map((friend) => (
+          <Link
+            key={friend._id}
+            to={`/profile/${friend.username}`}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <Box className={classes.following}>
+              <img
+                src={
+                  friend.profilePicture ||
+                  `${process.env.REACT_APP_PUBLIC_URL}person/noAvatar.png`
+                }
+                alt=""
+                className={classes.followingImg}
+              />
+              <Typography component="span" className={classes.followingName}>
+                {friend.username}
+              </Typography>
+            </Box>
+          </Link>
+        ))}
       </Box>
     </React.Fragment>
   );

@@ -71,14 +71,14 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?username=${username}`);
+      const res = await axios.get(`/api/v1/users?username=${username}`);
       const data: IUser = res.data;
-      console.log(data);
 
       setUser(data);
     };
     fetchUser();
   }, [username]);
+
   return (
     <Box>
       <NavBar />
@@ -92,7 +92,7 @@ const Profile: React.FC = () => {
                 className={classes.profileCoverImg}
                 src={
                   user?.coverPicture ||
-                  `${process.env.REACT_APP_PUBLIC_URL}person/noCover`
+                  `${process.env.REACT_APP_PUBLIC_URL}person/noCover.png`
                 }
                 alt="cover"
               />
@@ -100,9 +100,9 @@ const Profile: React.FC = () => {
                 className={classes.profileUserImg}
                 src={
                   user?.profilePicture ||
-                  `${process.env.REACT_APP_PUBLIC_URL}person/noAvatar`
+                  `${process.env.REACT_APP_PUBLIC_URL}person/noAvatar.png`
                 }
-                alt="user"
+                alt=""
               />
             </Box>
             <Box className={classes.profileInfo}>
@@ -114,7 +114,7 @@ const Profile: React.FC = () => {
           </Box>
           <Box className={classes.mainBottom}>
             <Feed username={username} />
-            <RightBar page="profile" user={user!} />
+            <RightBar page="profile" user={user} />
           </Box>
         </Box>
       </Box>

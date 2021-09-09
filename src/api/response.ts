@@ -23,6 +23,6 @@ export interface IUser {
   city: string;
   from: string;
   status: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

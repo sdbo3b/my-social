@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   createStyles,
   makeStyles,
   TextField,
@@ -9,6 +10,9 @@ import {
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import React, { FormEvent, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../state";
+import { beginLogin } from "../../state/thunks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -83,9 +87,18 @@ const Login: React.FC = () => {
   const classes = useStyles();
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const { user, isFetching, error } = useAppSelector((state) => state.auth);
 
   const handleSubmit = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
+    dispatch(
+      beginLogin({
+        email: email.current!.value,
+        password: password.current!.value,
+      })
+    );
   };
 
   return (
@@ -126,13 +139,21 @@ const Login: React.FC = () => {
                 color="primary"
                 type="submit"
                 disableRipple
+                disabled={isFetching}
               >
-                Log In
+                {isFetching ? <CircularProgress color="secondary" /> : "Log In"}
               </Button>
               <Typography component="span" className={classes.forgotPassword}>
                 Forgot Password?
               </Typography>
-              <RegisterButton variant="contained" disableRipple>
+              <RegisterButton
+                variant="contained"
+                disableRipple
+                onClick={(e) => {
+                  e.preventDefault();
+                  history.push("/register");
+                }}
+              >
                 Create a new account
               </RegisterButton>
             </Box>
