@@ -14,6 +14,11 @@ Installs the dependencies.
 
 See [https://github.com/sdbo3b/my-social-server](https://github.com/sdbo3b/my-social-server)
 
+## `Set ENV`
+
+set REACT_APP_PUBLIC_URL={SERVER}/images/ \
+e.g REACT_APP_PUBLIC_URL=http://localhost:8800/images/
+
 ## Running The App Using Node.js
 
 In the project directory, you can run:
